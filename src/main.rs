@@ -13,6 +13,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let path = std::env::args()
         .nth(1)
         .ok_or("usage: host-reference-openscad-helper <file.scad>")?;
+    // The plugin records this into the attested skeleton so the structure tally declares which
+    // engine produced it (host-reference plan/0050 finding 9).
+    if path == "--version" {
+        println!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+        return Ok(());
+    }
     let source = std::fs::read_to_string(&path)?;
     let ast = parse(&source).map_err(|e| format!("openscad: {e:?}"))?;
     for statement in &ast.statements {
