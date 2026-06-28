@@ -1,0 +1,26 @@
+# cargo-deny licence lane for the OpenSCAD helper. This binary is intentionally GPL: it links the
+# GPL-3.0 openscad-rs parser, named below as the expressly-flagged exception (call/0033). Every other
+# dependency must be permissive. AGPL is banned and never added.
+[licenses]
+version = 2
+confidence-threshold = 0.9
+allow = [
+    "Apache-2.0",
+    "ISC",
+    "MIT",
+    "Unicode-3.0",
+]
+# The GPL is intentional here: openscad-rs is GPL by design and is the whole reason this helper is
+# out-of-process, and this helper binary links it so it is GPL too. Naming both is the deliberate act
+# of flagging them; nothing else may be GPL, and AGPL never appears.
+exceptions = [
+    { name = "openscad-rs", allow = ["GPL-3.0-or-later"] },
+    { name = "host-reference-openscad-helper", allow = ["GPL-3.0-or-later"] },
+]
+
+[advisories]
+version = 2
+ignore = []
+
+[bans]
+multiple-versions = "allow"

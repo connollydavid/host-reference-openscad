@@ -1,0 +1,17 @@
+[package]
+name = "host-reference-openscad-helper"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+description = "Out-of-process OpenSCAD helper for host-reference: an openscad-rs parser carrying its GPL-3.0 licence behind the call/0033 arms-length boundary"
+repository = "https://github.com/connollydavid/host-reference-openscad"
+
+[[bin]]
+name = "host-reference-openscad-helper"
+path = "src/main.rs"
+
+[dependencies]
+openscad-rs = "0.1"
+
+[profile.release]
+strip = true
