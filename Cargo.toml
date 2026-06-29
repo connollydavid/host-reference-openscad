@@ -1,6 +1,6 @@
 [package]
 name = "host-reference-openscad-helper"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "Out-of-process OpenSCAD helper for host-reference: an openscad-rs parser carrying its GPL-3.0 licence behind the call/0033 arms-length boundary"
