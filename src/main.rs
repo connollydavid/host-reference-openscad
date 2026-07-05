@@ -23,7 +23,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     let ast = parse(&source).map_err(|e| format!("openscad: {e:?}"))?;
     for statement in &ast.statements {
         let debug = format!("{statement:?}");
-        let kind = debug.split(['(', ' ', '{', '\n']).next().unwrap_or("Statement");
+        let kind = debug
+            .split(['(', ' ', '{', '\n'])
+            .next()
+            .unwrap_or("Statement");
         println!("{kind}");
     }
     Ok(())

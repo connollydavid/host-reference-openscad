@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    # semver release tags only — a bare `v*` also matches the `vendor-vN` bundle
+    # tags this repo publishes, which would fire needlessly on a bundle tag.
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: cargo test (conformance fixtures)
+        run: cargo test --locked
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: cargo fmt --check
+        run: cargo fmt --all -- --check
+      - name: clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: cargo-deny (licences and advisories)
+        run: |
+          cargo install cargo-deny --locked
+          cargo deny check licenses advisories
+
+  # A compile smoke test on the deployed target; the reproducible-build proof itself is
+  # agentic-host's `software --verify-build` in the pinned muslrust container.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install musl toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+      - name: Add target
+        run: rustup target add x86_64-unknown-linux-musl
+      - name: Build the helper (musl)
+        run: cargo build --release --locked --target x86_64-unknown-linux-musl

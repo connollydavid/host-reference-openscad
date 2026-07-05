@@ -1,0 +1,6 @@
+# Pinned toolchain for reproducible builds and stable CI lint: the same compiler, std,
+# rustfmt, and clippy. The reproducible-build container overrides this with RUSTUP_TOOLCHAIN,
+# so the deployed artifact is unaffected; this pins the repo's own CI and local builds.
+[toolchain]
+channel = "1.95.0"
+components = ["rustfmt", "clippy"]
